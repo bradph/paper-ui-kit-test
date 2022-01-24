@@ -9,6 +9,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import ReactBSAlert from 'react-bootstrap-sweetalert'
 
 import { useHistory } from 'react-router';
 
@@ -17,9 +18,10 @@ import { addUserOnAPI } from "lib/services/UserService";
 
 const SignUp = () => { 
 
+    const [alert, setAlert] = useState(null);
     const [currentUser, setCurrentUser] = useState({
         id: null,
-        full_name: "",
+        name: "",
         email: "",
         mobile: "",
         password: ""
@@ -32,7 +34,7 @@ const SignUp = () => {
     const isValid = (currentUser) => {
         let errors={};
 
-        if(!currentUser.full_name){errors.full_name="Name required"}
+        if(!currentUser.name){errors.name="Name required"}
         if(!currentUser.email){errors.email="Email required"}
             else if(!/\S+@\S+\.\S+/.test(currentUser.email)){errors.email="Invalid Email"}
         if(!currentUser.mobile){errors.mobile="Mobile required"}
@@ -48,8 +50,28 @@ const SignUp = () => {
         e.preventDefault();
         setErrors(isValid(currentUser));
 
-        // const response = await addUserOnAPI(currentUser);
-      console.log(currentUser)
+        const response = await addUserOnAPI(currentUser);
+        if(response){
+          setAlert(
+            <ReactBSAlert
+            success
+            style={{ display: "block", marginTop: "" }}
+            title="Successful"
+            onConfirm={() => {
+                setAlert(null);
+                // {history.push('/login')}
+
+            }}
+            confirmBtnBsStyle="default"
+            confirmBtnText="Ok"
+        
+            btnSize=""
+            >
+                {response.message}
+        </ReactBSAlert>
+        );
+      }
+      // console.log(currentUser)
     };
 
   return (
@@ -72,15 +94,15 @@ const SignUp = () => {
                     Name
               </Label>
               <Input
-                name="full_name"
+                name="name"
                 placeholder="Full Name"
                 type="text"
-                value={currentUser.full_name}
+                value={currentUser.name}
                 onChange={(e)=>{
-                  setCurrentUser({...currentUser,full_name: e.target.value})
+                  setCurrentUser({...currentUser,name: e.target.value})
                 }}
               />
-              {errors.full_name && <p style={{color: "red"}}>{errors.full_name}</p>}
+              {errors.name && <p style={{color: "red"}}>{errors.name}</p>}
             </FormGroup>
 
             <FormGroup>

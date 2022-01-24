@@ -1,10 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { useHistory } from 'react-router';
 
+import { getAllUser, addUserOnAPI } from "lib/services/UserService";
+
 const LogIn = () => {
   const history = useHistory();
+
+  const [myUserList, setMyUserList] = useState([]);
+  useEffect(()=> {
+    fetchUsers();
+  },[]);
+
+  const fetchUsers = async() => {
+    const fetchedUsers = await getAllUser();
+    setMyUserList(fetchedUsers);
+  }
+
+  const [userData, setuserData] = useState({
+    name: "",
+    email: "",
+  });
+
+  const savedUser = myUserList.map(user => user.email);
+  // console.log(savedUser);
+
+const isAuth = async(e) => {
+  e.preventDefault();
+  if (savedUser.includes(userData.email)){
+    history.push('admin/dashboard')
+  } 
+}
+
   return(
       <div className="content">
       <Container>
@@ -21,22 +49,22 @@ const LogIn = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label for="userEmail">
+              <Label>
                     Email
               </Label>
               <Input
-                id="userEmail"
                 name="email"
                 placeholder="Email Address"
                 type="email"
-                // value={formValues.email}
-                // onChange={handleChange}
+                value={userData.email}
+                onChange={(e)=>{
+                  setuserData({...setuserData,email: e.target.value})
+                }}
               />
-              {/* {errors.email && <p style={{color: "red"}}>{errors.email}</p>} */}
             </FormGroup>
 
 
-            <Button type="submit" className="w-100">
+            <Button type="submit" onClick={isAuth} className="w-100">
               Log In
             </Button>
 
