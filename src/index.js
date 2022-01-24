@@ -26,13 +26,26 @@ import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 import AdminLayout from "layouts/Admin.js";
+import RegisterPage from "views/RegisterPage";
+import RegisterPageRoute from "layouts/Register";
+import SignUp from "views/SignUp";
+import LogIn from "views/LogIn"
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
+        <Route exact path = "/">
+          <Redirect to="/register" />
+        </Route>
+        <RegisterPageRoute path="/register" component= {RegisterPage} />
+        <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/login" component={LogIn} />
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Redirect to="/admin/dashboard" />
+      
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")
 );
+
+

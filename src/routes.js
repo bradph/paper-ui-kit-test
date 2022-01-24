@@ -25,6 +25,9 @@ import Maps from "views/Map.js";
 import UserPage from "views/User.js";
 import UserList from "views/UserList";
 import UpgradeToPro from "views/Upgrade.js";
+import RegisterPage from "views/RegisterPage.js";
+import LogIn from "views/LogIn.js";
+import SignUp from "views/SignUp";
 
 var routes = [
   {
