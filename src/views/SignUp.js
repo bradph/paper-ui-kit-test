@@ -31,7 +31,7 @@ const SignUp = () => {
   const history = useHistory();
 
 
-    const isValid = (currentUser) => {
+    const isInvalid = (currentUser) => {
         let errors={};
 
         if(!currentUser.name){errors.name="Name required"}
@@ -48,7 +48,7 @@ const SignUp = () => {
 
     const submit = async(e)=>{
         e.preventDefault();
-        setErrors(isValid(currentUser));
+        setErrors(isInvalid(currentUser));
 
         const response = await addUserOnAPI(currentUser);
         if(response){
@@ -59,11 +59,11 @@ const SignUp = () => {
             title="Successful"
             onConfirm={() => {
                 setAlert(null);
-                // {history.push('/login')}
+                {history.push('/login')}
 
             }}
             confirmBtnBsStyle="default"
-            confirmBtnText="Ok"
+            confirmBtnText="Log In Now"
         
             btnSize=""
             >
@@ -75,6 +75,8 @@ const SignUp = () => {
     };
 
   return (
+    <>
+    {alert}
     <div className="content">
     <Container>
       <Row style={{justifyContent: "center"}}>
@@ -169,6 +171,7 @@ const SignUp = () => {
       </Row>
     </Container>
     </div>
+    </>
   );
 };
 

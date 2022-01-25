@@ -41,7 +41,7 @@ ReactDOM.render(
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/login" component={LogIn} />
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-      <Redirect to="/admin/dashboard" />
+      <Redirect to="/register" />
       
     </Switch>
   </BrowserRouter>,

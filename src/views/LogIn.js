@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react';
 
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import ReactBSAlert from "react-bootstrap-sweetalert";
+
 import { useHistory } from 'react-router';
 
-import { getAllUser, addUserOnAPI } from "lib/services/UserService";
+import { getAllUser } from "lib/services/UserService";
 
 const LogIn = () => {
-  const history = useHistory();
 
+  const history = useHistory();
+  const [alert, setAlert] = useState(null);
   const [myUserList, setMyUserList] = useState([]);
   useEffect(()=> {
     fetchUsers();
@@ -31,9 +34,31 @@ const isAuth = async(e) => {
   if (savedUser.includes(userData.email)){
     history.push('admin/dashboard')
   } 
+  else {
+    setAlert(
+      <ReactBSAlert
+      danger
+      style={{ display: "block", marginTop: "" }}
+      title="Invalid User Data"
+      onConfirm={() => {
+          setAlert(null);
+      }}
+      
+      confirmBtnBsStyle="warning"
+      confirmBtnText="OK"
+  
+      btnSize=""
+      >
+          Invalid Data
+  </ReactBSAlert>
+  );
+
+  }
 }
 
   return(
+    <>
+    {alert}
       <div className="content">
       <Container>
       <Row style={{justifyContent: "center"}}>
@@ -78,6 +103,7 @@ const isAuth = async(e) => {
       </Row>
     </Container>
   </div>
+  </>
   );
 };
 
